@@ -6,7 +6,7 @@ import java.util.Scanner;
 import modelo.Ciudadano;
 import modelo.Requisito;
 import modelo.SolicitudLicencia;
-import dao.CiudadanoDAO; // Agregamos
+import dao.CiudadanoDAO;
 
 public class Main {
     public static void main(String[] args) {
