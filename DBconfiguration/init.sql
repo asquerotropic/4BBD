@@ -1,4 +1,3 @@
--- 1. Crear la tabla Ciudadano
 CREATE TABLE Ciudadano (
     id_ciudadano SERIAL PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
@@ -6,7 +5,6 @@ CREATE TABLE Ciudadano (
     telefono VARCHAR(15)
 );
 
--- 2. Crear la tabla SolicitudLicencia
 CREATE TABLE SolicitudLicencia (
     folio SERIAL PRIMARY KEY,
     id_ciudadano INT NOT NULL,
@@ -15,7 +13,6 @@ CREATE TABLE SolicitudLicencia (
     CONSTRAINT fk_ciudadano FOREIGN KEY (id_ciudadano) REFERENCES Ciudadano(id_ciudadano)
 );
 
--- 3. Crear la tabla Requisito
 CREATE TABLE Requisito (
     id_requisito SERIAL PRIMARY KEY,
     folio_solicitud INT NOT NULL,

@@ -8,11 +8,10 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class CiudadanoDAO {
-    
-    // Método que se usará exclusivamente para guardar en la Base de Datos.
+    // GUARDA LOS DATOS EN LA BD
     public void registrarCiudadano(Ciudadano ciudadano, SolicitudLicencia solicitud, Requisito requisito) {
         
-        // Consultas para cada una de las tablas
+        //CONSULTAS PARA CADA UNO DE LAS TABLAS
         String sqlCiudadano = "INSERT INTO Ciudadano (nombre, curp, telefono) VALUES (?, ?, ?)";
         String sqlSolicitud = "INSERT INTO SolicitudLicencia (id_ciudadano, tipo_licencia, esta_aprobada) VALUES (?, ?, ?)";
         String sqlRequisito = "INSERT INTO Requisito (folio_solicitud, nombre_documento, fue_entregado) VALUES (?, ?, ?)";
@@ -20,35 +19,35 @@ public class CiudadanoDAO {
         try {
             Connection conexion = ConexionBD.conectar();
             if (conexion != null) {
-                // Guardar Ciudadano y obtener su ID
+                // GUARDA CIUDADANO
                 PreparedStatement pstmtCiudadano = conexion.prepareStatement(sqlCiudadano, java.sql.Statement.RETURN_GENERATED_KEYS);
                 pstmtCiudadano.setString(1, ciudadano.getNombre());
                 pstmtCiudadano.setString(2, ciudadano.getCurp());
                 pstmtCiudadano.setString(3, ciudadano.getTelefono());
                 pstmtCiudadano.executeUpdate();
 
-                // Recuperar el ID de Ciudadano generado por la BD
+                // RECUPERARMOS EL ID DEL CIUDADANO CREADO POR LA BD
                 java.sql.ResultSet rsCiudadano = pstmtCiudadano.getGeneratedKeys();
                 int idCiudadanoGenerado = -1;
                 if (rsCiudadano.next()) {
                     idCiudadanoGenerado = rsCiudadano.getInt(1);
                 }
 
-                // Guardar Solicitud y obtener su ID
+                // GUARDA SOLICITUD
                 PreparedStatement pstmtSolicitud = conexion.prepareStatement(sqlSolicitud, java.sql.Statement.RETURN_GENERATED_KEYS);
                 pstmtSolicitud.setInt(1, idCiudadanoGenerado); // Relacionamos con la tabla Ciudadano (FK)
                 pstmtSolicitud.setString(2, solicitud.getTipoLicencia());
                 pstmtSolicitud.setBoolean(3, solicitud.getEstaAprobada());
                 pstmtSolicitud.executeUpdate();
 
-                // Recuperar el folio generado por la BD
+                // RECUPERARMOS EL ID DEL CIUDADANO CREADO POR LA BD
                 java.sql.ResultSet rsSolicitud = pstmtSolicitud.getGeneratedKeys();
                 int folioGenerado = -1;
                 if (rsSolicitud.next()) {
                     folioGenerado = rsSolicitud.getInt(1);
                 }
 
-                // Guardar Requisito utilizando el folio de la Solicitud
+                // GUARDA REQUISITO
                 PreparedStatement pstmtRequisito = conexion.prepareStatement(sqlRequisito);
                 pstmtRequisito.setInt(1, folioGenerado); // Relacionamos con la tabla SolicitudLicencia (FK)
                 pstmtRequisito.setString(2, requisito.getNombreDocumento());
@@ -67,14 +66,14 @@ public class CiudadanoDAO {
         }
     }
 
-    // Método para consultar el historial de Ciudadanos
+    // CONSULTAR EL HISTORIAL DEL CIUDADANOS
     public void consultarHistorial() {
         String sql = "SELECT c.id_ciudadano, c.nombre, c.curp, c.telefono, " +
-                     "s.folio, s.tipo_licencia, s.esta_aprobada, " +
-                     "r.nombre_documento, r.fue_entregado " +
-                     "FROM Ciudadano c " +
-                     "INNER JOIN SolicitudLicencia s ON c.id_ciudadano = s.id_ciudadano " +
-                     "INNER JOIN Requisito r ON s.folio = r.folio_solicitud";
+			"s.folio, s.tipo_licencia, s.esta_aprobada, " +
+			"r.nombre_documento, r.fue_entregado " +
+			"FROM Ciudadano c " +
+			"INNER JOIN SolicitudLicencia s ON c.id_ciudadano = s.id_ciudadano " +
+			"INNER JOIN Requisito r ON s.folio = r.folio_solicitud";
 
         try {
             Connection conexion = ConexionBD.conectar();
@@ -86,9 +85,9 @@ public class CiudadanoDAO {
                 System.out.println("=".repeat(50));
                 System.out.println("    HISTORIAL DE TRÁMITES");
                 System.out.println("=".repeat(50));
-                
+
                 int contador = 0;
-                
+
                 while (rs.next()) {
                     contador++;
                     System.out.println("\nRegistro #" + rs.getInt("id_ciudadano") + ":");

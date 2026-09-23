@@ -1,16 +1,16 @@
 services:
   postgres:
-    build: ./DBconfiguration
-    container_name: base_datos_tramites
+    build: ./DBconfiguration # AQUÍ INDICAMOS QUE SE VA A CONSTRUIR EL CONTENEDOR
+    container_name: base_datos_tramites # NOMBRE DEL CONTENEDOR
     ports:
       - "5432:5432" 
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: password123
       POSTGRES_DB: sistema_tramites
-    volumes:
+    volumes: # GUARDAMOS EL PROYECTO EN LA CARPETA, EN CASO DE QUE TENGA ALGUNA FALLA 
       - postgres_data:/var/lib/postgresql/data
 
-volumes:
+volumes: #LA INFORMACIÓN SE VA ALMACENAR EN EL LOCAL (PUEDE INDICARSE ALGUNA RUTA EN C)
   postgres_data:
     driver: local

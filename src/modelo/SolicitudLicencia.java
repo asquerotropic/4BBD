@@ -1,42 +1,43 @@
 package modelo;
 
 public class SolicitudLicencia {
-    // Atributos
+    //private int folio;
     private String tipoLicencia;
     private boolean aprobada;
 
-    // Asociaciones
+    // CREAMOS LA ASOCIACIONES O RELACIONES CON LAS DEMAS CLASES
     private Ciudadano titular;
     private Requisito requisito;
 
-    // Constructor
     public SolicitudLicencia(int folio, String tipoLicencia, Ciudadano titular, Requisito requisito) {
-        this.tipoLicencia = tipoLicencia;
+        //this.folio = folio;
+		this.tipoLicencia = tipoLicencia;
         this.titular = titular;
         this.requisito = requisito;
         this.aprobada = false;
     }
 
-    // Métodos
     public void procesarSolicitud() {
         if (requisito.getFueEntregado()) {
             this.aprobada = true;
-            System.out.println("\n>> LA SOLICITUD HA SIDO APROBADA.");
+            System.out.println("\n	-> La solicitud ha sido aprobada.");
         } else {
-            System.out.println("\n>> LA SOLICITUD HA SIDO RECHAZADA.\n>> FALTAN DOCUMENTOS.");
+            System.out.println("\n	-> La solicitud ha sido rechazada. ¡Faltan documentos!");
         }
     }
 
     public void consultarEstado() {
-        System.out.println("=".repeat(50));
-        System.out.println("    Estado del Trámite");
-        System.out.println("=".repeat(50));
+        System.out.println("\n	Estado del trámite");
         titular.mostrarInfo();
         System.out.println("Tipo de licencia: " + tipoLicencia);
-        System.out.println("Aprobado: " + (aprobada ? "Sí" : "No"));
+        System.out.println("\n	-> Tipo de licencia:  " + tipoLicencia + "\n	-> Aprobado: " + (aprobada ? "Si" : "No"));
     }
 
-    // CÓDIGO EXTRA - BD
-    public String getTipoLicencia() { return tipoLicencia; }
-    public boolean getEstaAprobada() { return aprobada; }
+    public String getTipoLicencia() { 
+		return tipoLicencia; 
+	}
+
+    public boolean getEstaAprobada() { 
+		return aprobada; 
+	}
 }
